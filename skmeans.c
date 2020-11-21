@@ -15,31 +15,20 @@ int main(void) {
 	sum= (double *)malloc(sizeof(double)*DIM*k); //set de somas (p/ calcular medias), sum[k][dim]
 	cluster = (int *)malloc(sizeof(int)*n); //set de cluster (p/ cada ponto), cluster[n]
 	count = (int *)malloc(sizeof(int)*k); //set de elementos por cluster (?), count[k]
-	
-	//TODO PARALELIZAR
 	for (i = 0; i<n; i++)
 		cluster[i] = 0; //todos os pontos começam no cluster 0
-
-	//TODO PARALELIZAR
 	for (i = 0; i<k; i++) //leitura dos k centroides (cada um é uma linha)
 		scanf("%lf %lf %lf", mean+i*DIM, mean+i*DIM+1, mean+i*DIM+2);
-	
-	//TODO PARALELIZAR && PODIA IR COM O FOR DA LINHA 19
 	for (i = 0; i<n; i++) //leitura dos n pontos (cada um é uma linha)
 		scanf("%lf %lf %lf", x+i*DIM, x+i*DIM+1, x+i*DIM+2);
-
 	flips = n; //se n tiver nenhum ponto, não itera
 	while (flips>0) {
 		flips = 0;
-		
-		//TODO PARALELIZAR
 		for (j = 0; j < k; j++) { //para cada um dos k centroides
 			count[j] = 0; //começa com 0 elementos
 			for (i = 0; i < DIM; i++)
 				sum[j*DIM+i] = 0.0; //sum[dim][cluster] = 0, se inverter isso aqui acessa melhor a cache
 		}
-
-		//TODO PARALELIZAR OBS: tentar deixar tudo dentro do ultimo for OBS: for 0:n é o mais pesado
 		for (i = 0; i < n; i++) { //for each n pontos
 			dmin = -1; color = cluster[i];
 			for (c = 0; c < k; c++) { //for each k clusters
@@ -59,7 +48,6 @@ int main(void) {
 			}
 		}
 
-		//TODO PARALELIZAR OBS: n >> DIM
 		for (i = 0; i < n; i++) { //for each n points
 			//isso podia ser feitono if (cluster[i] != color) pra n ter que ficar loopando mais de uma vez
 			count[cluster[i]]++; //conta qtos pontos cada cluster tem
@@ -67,14 +55,12 @@ int main(void) {
 				//soma todos os pontos de cada cluster (p/ calcular media depois)
 				sum[cluster[i]*DIM+j] += x[i*DIM+j]; //acesso ruim de cache ? descobri que talvez n
 		}
-		//TODO PARALELIZAR OBS: k >> DIM
 		for (i = 0; i < k; i++) { //for k clusters
 			for (j = 0; j < DIM; j++) { //for dimensions
 				mean[i*DIM+j] = sum[i*DIM+j]/count[i]; //calcula media usando sum, acesso ruim de cache?
 			}
 		}
 	}
-	//nao da pra paralelizar :(
 	for (i = 0; i < k; i++) {
 		for (j = 0; j < DIM; j++)
 			printf("%5.2f ", mean[i*DIM+j]);

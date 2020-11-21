@@ -1,8 +1,9 @@
 # kmeans-openmp
 Parallelizing a (given) implementation of the K-Means algorithm with OpenMP
 
-## auxiliary files
-### `kmeans.c` (reference sequential code)
+## files
+### `kmeans.c` and `skmeans.c`
+`kmeans.c` is the parallel implementation and `skmeans.c` is the reference sequential implementation. Both will be compiled with `omp.h`to measure time.
 **Input:**
 ```
 k
