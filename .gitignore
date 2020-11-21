@@ -2,6 +2,7 @@ okmeans
 oskmeans
 otest
 inputs/*
+*.in
 
 # everything below is from gitignore.io
 #################################################
