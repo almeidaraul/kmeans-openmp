@@ -1,19 +1,18 @@
 #!/bin/bash
 INPUTDIR="inputs"
-INPUTFILES=( "10x1M.txt" ) # "10x2M.txt" "10x5M.txt" )
-CPUVALUES=( 1 ) # 2
+INPUTFILES=( "10x1M.txt" "10x2M.txt" "10x5M.txt" )
+CPUVALUES=( 1 )
 CODE="$1.c"
 OUTPUTFILE="$2.csv"
 CFLAGS="-fopenmp"
 
-echo "criando arquivo"
+echo "Creating $OUTPUTFILE and compiling $CODE, skmeans.c"
 
 echo "CPUs;Input Size;Time;Output" > $OUTPUTFILE
 gcc $CODE $CFLAGS -o tmprun
 gcc skmeans.c $CFLAGS -o oskmeans
 
-# create reference file for comparison
-echo "criando arquivos de referencia"
+echo "Creating reference output files"
 for (( INPUT=0; INPUT<${#INPUTFILES[@]}; INPUT++ ))
 do
 		INPUTFILE=$INPUTDIR"/"${INPUTFILES[INPUT]}
@@ -21,14 +20,16 @@ do
 		head oskmeans-$INPUT.out --lines=-2 > oskmeans-$INPUT.out
 done
 
-# run parallel version
-echo "versao paralela"
+echo "Running parallel code"
 for CPU in "${CPUVALUES[@]}"
 do
+	echo "OMP_NUM_THREADS=$CPU"
 	export OMP_NUM_THREADS=$CPU
 	for (( INPUT=0; INPUT<${#INPUTFILES[@]}; INPUT++ ))
 	do
 		INPUTFILE=$INPUTDIR"/"${INPUTFILES[INPUT]}
+		echo $INPUTFILE
+
 		./tmprun < $INPUTFILE > tmprun.out
 		EXECTIME=$(tail -n 1 tmprun.out)
 
