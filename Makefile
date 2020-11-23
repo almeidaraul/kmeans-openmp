@@ -1,7 +1,7 @@
 all: ref kmeans
 
 clean:
-	@rm otest oskmeans okmeans 2> /dev/null
+	@rm a.in otest oskmeans okmeans 2> /dev/null
 
 ref:
 	@gcc skmeans.c -fopenmp -o oskmeans
@@ -18,3 +18,16 @@ update_test:
 test:
 	@gcc test_kmeans.c -fopenmp -o otest
 	@export OMP_NUM_THREADS=4
+
+output:
+	@python2 geninput.py 5 10 > a.in
+
+compare: ref kmeans test a.in
+	@echo "---REFERENCE OUTPUT---"
+	@./oskmeans < a.in
+	@echo ""
+	@echo "---KMEANS OUTPUT---"
+	@./okmeans < a.in
+	@echo ""
+	@echo "---TEST OUTPUT---"
+	@./otest < a.in
