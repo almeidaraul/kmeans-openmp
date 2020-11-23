@@ -1,10 +1,11 @@
 #!/bin/bash
 INPUTDIR="inputs"
 INPUTFILES=( "10x1M.txt" "10x2M.txt" "10x5M.txt" )
-CPUVALUES=( 1 )
+CPUVALUES=( 1 2 4 8 )
 CODE="$1.c"
 OUTPUTFILE="$2.csv"
 CFLAGS="-fopenmp"
+NUM_EXECS=5
 
 echo "Creating $OUTPUTFILE and compiling $CODE, skmeans.c"
 
@@ -30,19 +31,22 @@ do
 		INPUTFILE=$INPUTDIR"/"${INPUTFILES[INPUT]}
 		echo $INPUTFILE
 
-		./tmprun < $INPUTFILE > tmprun.out
-		EXECTIME=$(tail -n 1 tmprun.out)
+		for (( ITERATION=0; ITERATION<$NUM_EXECS; ITERATION++ ))
+		do
+			./tmprun < $INPUTFILE > tmprun.out
+			EXECTIME=$(tail -n 1 tmprun.out)
 
-		head tmprun.out --lines=-2 > tmprun.out
-		diff tmprun.out oskmeans-$INPUT.out > difffile
+			head tmprun.out --lines=-2 > tmprun.out
+			diff tmprun.out oskmeans-$INPUT.out > difffile
+
+			OUTOK="y"
+			if [ -s "difffile" ]
+			then
+				OUTOK="n"
+			fi
+			echo $CPU";"${INPUTFILES[INPUT]}";"$EXECTIME";"$OUTOK >> $OUTPUTFILE
+		done
 		rm oskmeans-$INPUT.out
-
-		OUTOK="y"
-		if [ -s "difffile" ]
-		then
-			OUTOK="n"
-		fi
-		echo $CPU";"${INPUTFILES[INPUT]}";"$EXECTIME";"$OUTOK >> $OUTPUTFILE
 	done
 done
 rm tmprun oskmeans *.out difffile
