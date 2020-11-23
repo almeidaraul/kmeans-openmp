@@ -3,6 +3,7 @@ oskmeans
 otest
 inputs/*
 *.in
+*.swp
 
 # everything below is from gitignore.io
 #################################################

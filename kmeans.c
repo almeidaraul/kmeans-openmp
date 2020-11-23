@@ -19,7 +19,7 @@ int main(void) {
 	cluster = (int *)malloc(sizeof(int)*n); //set de cluster (p/ cada ponto), cluster[n]
 	count = (int *)malloc(sizeof(int)*k); //set de elementos por cluster (?), count[k]
 	
-	//TODO PARALELIZAR
+	//TODO PARALELIZAR (resolver falso compartilhamento)
 	for (i = 0; i<n; i++)
 		cluster[i] = 0; //todos os pontos começam no cluster 0
 

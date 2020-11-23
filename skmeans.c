@@ -5,10 +5,8 @@
 #define DIM 3
 int main(void) {
 	double start_time = omp_get_wtime();
-
 	int i, j, k, n, c;
-	double dmin, dx;
-	double *x, *mean, *sum;
+	double dmin, dx; double *x, *mean, *sum;
 	int *cluster, *count, color;
 	int flips;
 	scanf("%d", &k);
