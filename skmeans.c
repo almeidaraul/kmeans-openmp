@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <omp.h>
 #define DIM 3
 int main(void) {
+	double start_time = omp_get_wtime();
+
 	int i, j, k, n, c;
 	double dmin, dx;
 	double *x, *mean, *sum;
@@ -74,5 +77,7 @@ int main(void) {
 		printf("%d\n", cluster[i]);
 	}
 	#endif
+
+	printf("\nTempo: %lf\n", omp_get_wtime() - start_time);
 	return(0);
 }

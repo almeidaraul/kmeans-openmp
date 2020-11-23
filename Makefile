@@ -20,9 +20,9 @@ test:
 	@export OMP_NUM_THREADS=4
 
 output:
-	@python2 geninput.py 5 10 > a.in
+	@python2 geninput.py 5 1000 > a.in
 
-compare: ref kmeans test a.in
+compare: ref kmeans test
 	@echo "---REFERENCE OUTPUT---"
 	@./oskmeans < a.in
 	@echo ""
