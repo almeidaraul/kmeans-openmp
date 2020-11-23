@@ -5,8 +5,10 @@
 #define DIM 3
 int main(void) {
 	double start_time = omp_get_wtime();
+
 	int i, j, k, n, c;
-	double dmin, dx; double *x, *mean, *sum;
+	double dmin, dx;
+	double *x, *mean, *sum;
 	int *cluster, *count, color;
 	int flips;
 	scanf("%d", &k);
@@ -16,10 +18,13 @@ int main(void) {
 	sum= (double *)malloc(sizeof(double)*DIM*k); //set de somas (p/ calcular medias), sum[k][dim]
 	cluster = (int *)malloc(sizeof(int)*n); //set de cluster (p/ cada ponto), cluster[n]
 	count = (int *)malloc(sizeof(int)*k); //set de elementos por cluster (?), count[k]
+	//NOME: CLUSTER_ZERO
 	for (i = 0; i<n; i++)
 		cluster[i] = 0; //todos os pontos começam no cluster 0
+	//NOME: LE_K
 	for (i = 0; i<k; i++) //leitura dos k centroides (cada um é uma linha)
 		scanf("%lf %lf %lf", mean+i*DIM, mean+i*DIM+1, mean+i*DIM+2);
+	//NOME: LE_N
 	for (i = 0; i<n; i++) //leitura dos n pontos (cada um é uma linha)
 		scanf("%lf %lf %lf", x+i*DIM, x+i*DIM+1, x+i*DIM+2);
 	flips = n; //se n tiver nenhum ponto, não itera

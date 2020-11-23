@@ -19,15 +19,18 @@ int main(void) {
 	cluster = (int *)malloc(sizeof(int)*n); //set de cluster (p/ cada ponto), cluster[n]
 	count = (int *)malloc(sizeof(int)*k); //set de elementos por cluster (?), count[k]
 	
-	//TODO PARALELIZAR (resolver falso compartilhamento)
+	//TODO PARALELIZAR
+	//CLUSTER_ZERO
 	for (i = 0; i<n; i++)
 		cluster[i] = 0; //todos os pontos começam no cluster 0
 
 	//TODO PARALELIZAR
+	//LE_K
 	for (i = 0; i<k; i++) //leitura dos k centroides (cada um é uma linha)
 		scanf("%lf %lf %lf", mean+i*DIM, mean+i*DIM+1, mean+i*DIM+2);
 	
 	//TODO PARALELIZAR && PODIA IR COM O FOR DA LINHA 19
+	//LE_N
 	for (i = 0; i<n; i++) //leitura dos n pontos (cada um é uma linha)
 		scanf("%lf %lf %lf", x+i*DIM, x+i*DIM+1, x+i*DIM+2);
 

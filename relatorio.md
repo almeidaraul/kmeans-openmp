@@ -13,7 +13,7 @@ Alterou o resultado?
 Explicação
 ### Observações
 
-## Paralelizar for:n cluster[i] = 0
+## Paralelizar `CLUSTER_ZERO`
 **Linha no código sequencial:** 19
 ### Mudanças no código
 `pragma omp parallel for` simplérrimo
@@ -24,6 +24,21 @@ Em geral ficaram os dois num tempo semelhante.
 ### Resultado
 OK
 ### Por que funcionou/não funcionou
-Não melhorou por conta de falso compartilhamento em `int *cluster`.
+**Não** melhorou por conta de falso compartilhamento em `int *cluster`.
 ### Observações
 Tentar resolver esse falso compartilhamento depois
+
+## Juntar `LE_N` e `CLUSTER_ZERO`
+**Linha no código sequencial:** 19
+### Mudanças no código
+Juntar dois `for 0:n` em um só. Um faz `cluster[i] = 0` e outro faz `scanf` em `x`.
+
+`pragma omp parallel for` em cima do for único.
+### Tempo
+Paralelo 0.0644s vs sequencial 0.0645s. Iguais
+### Resultado
+OK
+### Por que funcionou/não funcionou
+**Não** melhorou por conta do mesmo falso compartilhamento do `CLUSTER_ZERO`. **NÃO SEI PORQUE QUE JUNTAR OS DOIS FOR SEQUENCIALMENTE MSM NÃO MELHOROU**
+### Observações
+Entender isso
