@@ -39,18 +39,23 @@ int main(void) {
 		flips = 0;
 		
 		//TODO PARALELIZAR
+		//COUNT_ZERO
 		for (j = 0; j < k; j++) { //para cada um dos k centroides
 			count[j] = 0; //começa com 0 elementos
+			//SUM_ZERO
 			for (i = 0; i < DIM; i++)
 				sum[j*DIM+i] = 0.0; //TODO RESOLVER ESSA DUVIDA sum[j][dim] = 0, acessa direito mas podia usar memset (sera? eh float)
 		}
 
 		//TODO PARALELIZAR OBS: tentar deixar tudo dentro do ultimo for OBS: for 0:n é o mais pesado
+		//D_N
 		for (i = 0; i < n; i++) { //for each n pontos
 			dmin = -1; color = cluster[i];
+			//D_K
 			for (c = 0; c < k; c++) { //for each k clusters
 				//calcula distancia(cluster, ponto) e compara com dmin
 				dx = 0.0;
+				//D_DIM
 				for (j = 0; j < DIM; j++)
 					//x[i][j] e mean[c][j]
 					dx +=  (x[i*DIM+j] - mean[c*DIM+j])*(x[i*DIM+j] - mean[c*DIM+j]); //(dx([1, 2], [3, 4]) = [(1-3)², (2-4)²]

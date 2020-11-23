@@ -42,3 +42,20 @@ OK
 **Não** melhorou por conta do mesmo falso compartilhamento do `CLUSTER_ZERO`. **NÃO SEI PORQUE QUE JUNTAR OS DOIS FOR SEQUENCIALMENTE MSM NÃO MELHOROU**
 ### Observações
 Entender isso
+
+## Juntar `COUNT_ZERO` e `SUM_ZERO`
+### Mudanças no código
+Transformei os dois nisso aqui:
+```
+#pragma omp parallel for
+for (j = 0; j < k*DIM; j++) {
+	count[j/DIM] = 0;
+	sum[j] = 0.0;
+}
+```
+### Tempo
+Piorou. Sem o `#pragma omp parallel for` fica igual.
+### Resultado
+OK
+### Pq n funcionou
+Falso compartilhamento
