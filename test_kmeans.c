@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <omp.h>
 #define DIM 3
 int main(void) {
+	double start_time = omp_get_wtime();
+
 	int i, j, k, n, c;
 	double dmin, dx;
 	double *x, *mean, *sum;
@@ -17,14 +20,17 @@ int main(void) {
 	count = (int *)malloc(sizeof(int)*k); //set de elementos por cluster (?), count[k]
 	
 	//TODO PARALELIZAR
+	//CLUSTER_ZERO
 	for (i = 0; i<n; i++)
 		cluster[i] = 0; //todos os pontos começam no cluster 0
 
 	//TODO PARALELIZAR
+	//LE_K
 	for (i = 0; i<k; i++) //leitura dos k centroides (cada um é uma linha)
 		scanf("%lf %lf %lf", mean+i*DIM, mean+i*DIM+1, mean+i*DIM+2);
 	
 	//TODO PARALELIZAR && PODIA IR COM O FOR DA LINHA 19
+	//LE_N
 	for (i = 0; i<n; i++) //leitura dos n pontos (cada um é uma linha)
 		scanf("%lf %lf %lf", x+i*DIM, x+i*DIM+1, x+i*DIM+2);
 
@@ -33,18 +39,23 @@ int main(void) {
 		flips = 0;
 		
 		//TODO PARALELIZAR
+		//COUNT_ZERO
 		for (j = 0; j < k; j++) { //para cada um dos k centroides
 			count[j] = 0; //começa com 0 elementos
+			//SUM_ZERO
 			for (i = 0; i < DIM; i++)
 				sum[j*DIM+i] = 0.0; //TODO RESOLVER ESSA DUVIDA sum[j][dim] = 0, acessa direito mas podia usar memset (sera? eh float)
 		}
 
 		//TODO PARALELIZAR OBS: tentar deixar tudo dentro do ultimo for OBS: for 0:n é o mais pesado
+		//D_N
 		for (i = 0; i < n; i++) { //for each n pontos
 			dmin = -1; color = cluster[i];
+			//D_K
 			for (c = 0; c < k; c++) { //for each k clusters
 				//calcula distancia(cluster, ponto) e compara com dmin
 				dx = 0.0;
+				//D_DIM
 				for (j = 0; j < DIM; j++)
 					//x[i][j] e mean[c][j]
 					dx +=  (x[i*DIM+j] - mean[c*DIM+j])*(x[i*DIM+j] - mean[c*DIM+j]); //(dx([1, 2], [3, 4]) = [(1-3)², (2-4)²]
@@ -88,5 +99,7 @@ int main(void) {
 		printf("%d\n", cluster[i]);
 	}
 	#endif
+
+	printf("\n%lf\n", omp_get_wtime() - start_time);
 	return(0);
 }

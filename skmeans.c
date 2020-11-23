@@ -81,6 +81,6 @@ int main(void) {
 	}
 	#endif
 
-	printf("\nTempo: %lf\n", omp_get_wtime() - start_time);
+	printf("\n%lf\n", omp_get_wtime() - start_time);
 	return(0);
 }
