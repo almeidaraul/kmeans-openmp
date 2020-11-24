@@ -3,6 +3,9 @@ all: ref kmeans
 clean:
 	@rm a.in otest oskmeans okmeans 2> /dev/null
 
+rmtest:
+	@rm .test_kmeans.c 2> /dev/null
+
 ref:
 	@gcc skmeans.c -fopenmp -o oskmeans
 	@export OMP_NUM_THREADS=4
