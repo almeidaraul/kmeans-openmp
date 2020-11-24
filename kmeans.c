@@ -44,7 +44,7 @@ int main(void) {
 			count[j] = 0; //começa com 0 elementos
 			//SUM_ZERO
 			for (i = 0; i < DIM; i++)
-				sum[j*DIM+i] = 0.0; //TODO RESOLVER ESSA DUVIDA sum[j][dim] = 0, acessa direito mas podia usar memset (sera? eh float)
+				sum[j*DIM+i] = 0.0;
 		}
 
 		//TODO PARALELIZAR OBS: tentar deixar tudo dentro do ultimo for OBS: for 0:n é o mais pesado
@@ -73,9 +73,8 @@ int main(void) {
 
 		//TODO PARALELIZAR OBS: n >> DIM
 		for (i = 0; i < n; i++) { //for each n points
-			//TODO DECIDIR SE isso podia ser feitono if (cluster[i] != color) pra n ter que ficar loopando mais de uma vez
 			count[cluster[i]]++; //conta qtos pontos cada cluster tem
-			for (j = 0; j < DIM; j++) //for each dimensao TODO DECIDIR SE isso aqui era pra ser dentro desse for?
+			for (j = 0; j < DIM; j++) //for each dimensao
 				//soma todos os pontos de cada cluster (p/ calcular media depois)
 				sum[cluster[i]*DIM+j] += x[i*DIM+j]; //sum[cluster[i]][j] e x[i][j]
 		}
