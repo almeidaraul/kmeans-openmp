@@ -25,6 +25,9 @@ test:
 output:
 	@python2 geninput.py 10 10000 > a.in
 
+biginput:
+	@python2 geninput.py 100 10000 > a.in
+
 compare: ref kmeans test
 	@echo "---REFERENCE OUTPUT---"
 	@./oskmeans < a.in

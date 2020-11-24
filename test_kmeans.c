@@ -61,6 +61,8 @@ int main(void) {
 			for (j = 0; j < DIM; j++)
 				sum[cluster[i]*DIM+j] += x[i*DIM+j];
 		}
+
+		#pragma omp parallel for collapse(2) private(j)
 		for (i = 0; i < k; i++) {
 			for (j = 0; j < DIM; j++) {
 				mean[i*DIM+j] = sum[i*DIM+j]/count[i];
