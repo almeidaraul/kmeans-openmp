@@ -49,6 +49,7 @@ int main(void) {
 
 		//TODO PARALELIZAR OBS: tentar deixar tudo dentro do ultimo for OBS: for 0:n é o mais pesado
 		//D_N
+		#pragma omp parallel for private(dmin, color, c, dx, j)
 		for (i = 0; i < n; i++) { //for each n pontos
 			dmin = -1; color = cluster[i];
 			//D_K
@@ -79,6 +80,7 @@ int main(void) {
 				sum[cluster[i]*DIM+j] += x[i*DIM+j]; //sum[cluster[i]][j] e x[i][j]
 		}
 		//TODO PARALELIZAR OBS: k >> DIM
+		//MEAN_UPDATE
 		for (i = 0; i < k; i++) { //for k clusters
 			for (j = 0; j < DIM; j++) { //for dimensions
 				mean[i*DIM+j] = sum[i*DIM+j]/count[i]; //calcula media usando sum, mean[i][j] e sum[i][j]
