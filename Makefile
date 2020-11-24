@@ -26,7 +26,7 @@ output:
 	@python2 geninput.py 10 10000 > a.in
 
 biginput:
-	@python2 geninput.py 400 40000 > a.in
+	@python2 geninput.py 10 40000 > a.in
 
 compare: ref kmeans test
 	@echo "---REFERENCE OUTPUT---"

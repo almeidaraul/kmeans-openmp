@@ -19,6 +19,7 @@ int main(void) {
 	cluster = (int *)malloc(sizeof(int)*n);
 	count = (int *)malloc(sizeof(int)*k);
 	
+	//continuou lento pragma omp parallel for reduction(&:cluster[:n])
 	for (i = 0; i<n; i++)
 		cluster[i] = 0;
 
@@ -32,6 +33,7 @@ int main(void) {
 	while (flips>0) {
 		flips = 0;
 		
+		//nao funciona (+lento) pragma omp parallel for private(j, i) reduction(&:count[:k]) reduction(*:sum[:k*DIM])
 		for (j = 0; j < k; j++) {
 			count[j] = 0;
 			for (i = 0; i < DIM; i++)
