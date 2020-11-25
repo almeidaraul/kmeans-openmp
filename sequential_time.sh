@@ -18,3 +18,5 @@ do
 		./tmprun < $INPUTFILE | head --lines=-2
 	done
 done
+
+rm tmprun
