@@ -1,4 +1,6 @@
-all: ref kmeans
+CFLAGS=-fopenmp -Wextra -O3
+
+all: ref kmeans test
 
 clean:
 	@rm a.in otest oskmeans okmeans 2> /dev/null
@@ -7,11 +9,11 @@ rmtest:
 	@rm .test_kmeans.c 2> /dev/null
 
 ref:
-	@gcc skmeans.c -fopenmp -o oskmeans
+	@gcc skmeans.c $(CFLAGS) -o oskmeans
 	@export OMP_NUM_THREADS=4
 
 kmeans:
-	@gcc kmeans.c -fopenmp -o okmeans
+	@gcc kmeans.c ${CFLAGS} -o okmeans
 	@export OMP_NUM_THREADS=4
 
 update_test:
@@ -19,7 +21,7 @@ update_test:
 	@cp kmeans.c test_kmeans.c
 
 test:
-	@gcc test_kmeans.c -fopenmp -o otest
+	@gcc test_kmeans.c ${CFLAGS} -o otest
 	@export OMP_NUM_THREADS=4
 
 output:
