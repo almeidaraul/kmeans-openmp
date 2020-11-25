@@ -10,7 +10,6 @@ NUM_EXECS=10
 echo "Creating $OUTPUTFILE and compiling $CODE, skmeans.c"
 
 echo "CPUs;Input Size;Time;Output" > $OUTPUTFILE
-gcc $CODE $CFLAGS -o tmprun
 gcc skmeans.c $CFLAGS -o oskmeans
 
 echo "Creating reference output files"
@@ -25,6 +24,7 @@ echo "Running parallel code"
 for CPU in "${CPUVALUES[@]}"
 do
 	echo "OMP_NUM_THREADS=$CPU"
+	gcc $CODE $CFLAGS -o tmprun
 	export OMP_NUM_THREADS=$CPU
 	for (( INPUT=0; INPUT<${#INPUTFILES[@]}; INPUT++ ))
 	do
