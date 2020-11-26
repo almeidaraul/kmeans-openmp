@@ -14,8 +14,12 @@ do
 	export OMP_NUM_THREADS=$CPU
 	for (( INPUT=0; INPUT<${#INPUTFILES[@]}; INPUT++ ))
 	do
-		INPUTFILE=$INPUTDIR"/"${INPUTFILES[INPUT]}
-		./tmprun < $INPUTFILE | tail -n 2
+		for (( I=0; I<$NUM_EXECS; I++ ))
+		do
+			echo "I=$I"
+			INPUTFILE=$INPUTDIR"/"${INPUTFILES[INPUT]}
+			./tmprun < $INPUTFILE | tail -n 2
+		done
 	done
 done
 
