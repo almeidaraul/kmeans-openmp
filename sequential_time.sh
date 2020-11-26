@@ -15,7 +15,7 @@ do
 	for (( INPUT=0; INPUT<${#INPUTFILES[@]}; INPUT++ ))
 	do
 		INPUTFILE=$INPUTDIR"/"${INPUTFILES[INPUT]}
-		./tmprun < $INPUTFILE | head --lines=-2
+		./tmprun < $INPUTFILE | tail -n 2
 	done
 done
 
