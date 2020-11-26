@@ -6,7 +6,6 @@ inputs/*
 *.in
 *.swp
 *.out
-*.csv
 
 # everything below is from gitignore.io
 #################################################

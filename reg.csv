@@ -1,0 +1,7 @@
+CPUs;Input Size;Time;Output
+4;10x1M.txt;3.694198;y
+4;10x2M.txt;7.973581;y
+4;10x5M.txt;67.643931;y
+8;10x1M.txt;3.447412;y
+8;10x2M.txt;7.656728;y
+8;10x5M.txt;64.121578;y
