@@ -26,13 +26,45 @@ group_by = ['CPUs', 'Input Size']
 
 pdf = df[df['Type'] == 'parallel']
 del pdf['Type']
-pdf = pdf.groupby(group_by).mean()
 print("Parallel time")
-print(pdf)
+print(pdf.groupby(group_by).mean())
+print("Std dev")
+print(pdf.groupby(group_by)['Time'].std())
 
 sdf = df[df['Type'] == 'sequential']
 del sdf['Type']
 del sdf['CPUs']
-sdf = sdf.groupby('Input Size').mean()
 print("\n\nSequential time")
-print(sdf)
+print(sdf.groupby('Input Size').mean())
+print("Std dev")
+print(sdf.groupby('Input Size')['Time'].std())
+
+def isFloat(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
+filepath = 'sequential.txt'
+total = []
+seq = []
+with open(filepath) as fp:
+    line = fp.readline()
+    cnt = 1
+    while line:
+        if isFloat(line[:-1]):
+            if len(total) > len(seq):
+                seq.append(float(line))
+            else:
+                total.append(float(line))
+        line = fp.readline()
+avgp = 0
+stdp = 0
+for i in range(len(total)):
+    avgp += seq[i]/total[i]
+avgp /= len(total)
+for i in range(len(total)):
+    stdp += (seq[i]/total[i] - avgp)**2
+stdp /= len(total)
+print("Avg: {}\nStd: {}\n".format(avgp*100, stdp*100))
