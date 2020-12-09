@@ -1,11 +1,11 @@
 #!/bin/bash
 INPUTDIR="inputs"
 INPUTFILES=( "10x1M.txt" "10x2M.txt" "10x5M.txt" )
-CPUVALUES=( 1 2 4 8 16 )
+CPUVALUES=( 1 2 4 )
 CODE="$1.c"
 OUTPUTFILE="$2.csv"
 CFLAGS="-fopenmp -Wextra -O3"
-NUM_EXECS=10
+NUM_EXECS=20
 
 echo "Creating $OUTPUTFILE and compiling $CODE, skmeans.c"
 

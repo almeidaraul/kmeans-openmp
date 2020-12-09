@@ -18,7 +18,7 @@ input_dict = {'10x1M.txt': '10',
 df = df.replace({'Input Size': input_dict})
 df['Output'] = df['Output'].apply(lambda x: x == 'y')
 df = df[df['Output']]
-df = df[df['CPUs'] < 8]
+#df = df[df['CPUs'] < 16]
 del df['Output']
 del df['index']
 
@@ -46,25 +46,55 @@ def isFloat(s):
     except ValueError:
         return False
 
-filepath = 'sequential.txt'
-total = []
-seq = []
-with open(filepath) as fp:
-    line = fp.readline()
-    cnt = 1
-    while line:
-        if isFloat(line[:-1]):
-            if len(total) > len(seq):
-                seq.append(float(line))
-            else:
-                total.append(float(line))
+filepaths = ['resultado_sequencial28nov.txt', 'resultado_paralelo28nov.txt']
+for filepath in filepaths:
+    print(filepath)
+    entrada = '10x1M.txt'
+    entradas = {'10x1M.txt': {
+                    1: {'total': [], 'seq': []},
+                    2: {'total': [], 'seq': []},
+                    4: {'total': [], 'seq': []},
+                    8: {'total': [], 'seq': []}
+                   },
+                '10x2M.txt': {
+                    1: {'total': [], 'seq': []},
+                    2: {'total': [], 'seq': []},
+                    4: {'total': [], 'seq': []},
+                    8: {'total': [], 'seq': []}
+                   },
+                 '10x5M.txt': {
+                    1: {'total': [], 'seq': []},
+                    2: {'total': [], 'seq': []},
+                    4: {'total': [], 'seq': []},
+                    8: {'total': [], 'seq': []}
+                   }}
+    cpu = 1
+    with open(filepath) as fp:
         line = fp.readline()
-avgp = 0
-stdp = 0
-for i in range(len(total)):
-    avgp += seq[i]/total[i]
-avgp /= len(total)
-for i in range(len(total)):
-    stdp += (seq[i]/total[i] - avgp)**2
-stdp /= len(total)
-print("Avg: {}\nStd: {}\n".format(avgp*100, stdp*100))
+        cnt = 1
+        while line:
+            if isFloat(line[:-1]):
+                if len(entradas[entrada][cpu]['total']) > len(entradas[entrada][cpu]['seq']):
+                    entradas[entrada][cpu]['seq'].append(float(line))
+                else:
+                    entradas[entrada][cpu]['total'].append(float(line))
+            elif "cpu" in line:
+                cpu = int(line[:-1].split('=')[1])
+            elif "entrada" in line:
+                entrada = line[:-1].split('=')[1]
+            line = fp.readline()
+    for entrada in entradas:
+        print("Entrada={}".format(entrada))
+        for c in entradas[entrada]:
+            avgp = 0
+            stdp = 0
+            print("CPU={}".format(c))
+            total = entradas[entrada][c]['total']
+            seq = entradas[entrada][c]['seq']
+            for i in range(len(total)):
+                avgp += seq[i]/total[i]
+            avgp /= len(total)
+            for i in range(len(total)):
+                stdp += (seq[i]/total[i] - avgp)**2
+            stdp /= len(total)
+            print("Avg: {}\n".format(avgp*100))

@@ -4,7 +4,7 @@
 #include <omp.h>
 #define DIM 3
 int main(void) {
-	double start_time = omp_get_wtime();
+	//double start_time = omp_get_wtime();
 	int scanfArgs = 0;
 
 	int i, j, k, n, c;
@@ -20,7 +20,6 @@ int main(void) {
 	cluster = (int *)malloc(sizeof(int)*n);
 	count = (int *)malloc(sizeof(int)*k);
 	
-	//continuou lento pragma omp parallel for reduction(&:cluster[:n])
 	for (i = 0; i<n; i++)
 		cluster[i] = 0;
 
@@ -37,7 +36,6 @@ int main(void) {
 	while (flips>0) {
 		flips = 0;
 		
-		//nao funciona (+lento) pragma omp parallel for private(j, i) reduction(&:count[:k]) reduction(*:sum[:k*DIM])
 		for (j = 0; j < k; j++) {
 			count[j] = 0;
 			for (i = 0; i < DIM; i++)
@@ -88,6 +86,6 @@ int main(void) {
 	}
 	#endif
 
-	printf("\n%lf\n", omp_get_wtime() - start_time);
+	//printf("\n%lf\n", omp_get_wtime() - start_time);
 	return(0);
 }
